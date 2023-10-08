@@ -1,0 +1,510 @@
+# Design metadata custom
+#   load this after the design defaults, e.g.
+#   pandoc --metadata-file design-meta-defaults.yaml
+#     --metadata-file design-meta.yaml srd.md -o out.pdf
+#   to keep track of which fields have changed.
+# Note that fields are replaced, not merged, even when they are a list.
+
+# BASIC SETTINGS
+# ======================================================================
+# NB: with titlepage=firstiscover chapter titles occupy their own page too.
+documentclass: scrbook
+classoption:
+- 'paper=140mm:210mm' # 2:3 ratio intermediate between A5 and half-letter
+- BCOR=0mm # no binding correction, we won't print
+- DIV=15 # KOMA's margin structure, smallest margins within reason
+- headinclude=yes # page head included in textblock
+- footinclude=no # page footer not included in textblock
+- twoside=semi # two-sided but with centered textblock
+- open=right # open chapters on the right
+- titlepage=firstiscover # chapters don't have their own titlepage
+- fontsize=10pt
+- footnotes=multiple # supposed to handle consecutive fns, but doesn't?
+- onecolumn
+
+# the document supplies its own \mainmatter
+# mainmatter: true
+
+# no standard toc, we design our own
+toc: false
+
+# With optiontohead, a heading without [tocentry=...] option will 
+# be sent to the table of contents; if it includes a footnote it crashes.
+komaoptions:
+- option: headings
+  value: optiontoheadandtoc
+
+# GEOMETRY
+# ======================================================================
+
+# ragged bottom
+raggedbottom: true
+
+# new lengths
+# We want to have: 
+# chapter's afterskip + chapterwithoutsubtitleskip = chapterwithsubtitleskip
+# in practice we need to let the former 2pt less for it to be the same length,
+# not sure why
+newlength:
+- length: gridbaseline
+  value: 12pt
+- length: chapterwithsubtitleskip 
+  value: 18pt plus 4pt minus 2pt
+- length: chapterwithoutsubtitleskip 
+  value: 6pt plus 1pt minus 1pt
+- length: chapterskip
+  value: 25pt plus 2pt minus 1pt
+- length: toctitleskip
+  value: 12pt plus 2pt minus 1pt
+
+# footnotes
+deffootnote:
+  markwidth: 0em
+  indent: 0em
+  parindent: 1em
+  definition: \thefootnotemark\enskip
+setfootnoterule:
+  thickness: .5pt
+  width: \textwidth
+
+# division headings
+raggedpart: \centering
+partformat: \relax
+raggedchapter: \centering
+chapterformat: \relax
+sectionformat: \makebox[0pt][r]{\thesection\autodot\enskip}
+subsectionformat: \makebox[0pt][r]{\upshape\thesubsection\autodot\enskip}
+subsubsectionformat: \makebox[0pt][r]{\thesubsubsection\autodot\enskip}
+paragraphformat: \makebox[0pt][r]{\theparagraph\autodot\enskip}
+subparagraphformat: \makebox[0pt][r]{\thesubparagraph\autodot\enskip}
+
+# for section and subsection, \large = 14pt baseline
+# 12pt + 14pt + 10pt = 3 * 12pt baseline
+redeclaresectioncommand:
+- element: chapter
+  beforeskip: 0pt plus 2pt
+  afterskip: 10pt plus 2pt minus 1pt
+  afterindent: no
+  tocfont: 
+- element: section
+  beforeskip: 12pt plus 2pt minus 1pt
+  afterskip: 10pt plus 2pt minus 1pt
+  afterindent: no
+- element: subsection
+  beforeskip: 12pt plus 2pt minus 1pt
+  afterskip: 10pt plus 2pt minus 1pt
+  afterindent: no
+- element: subsubsection
+  beforeskip: 6pt plus 2pt minus 1pt
+  afterskip: 4pt plus 2pt minus 1pt
+  afterindent: no
+
+# PAGE SETUP
+# ======================================================================
+
+# Set \headmark to the chapter title on both recto and verso
+automark: chapter
+# put headmark on the center header both sides (default, overridden 
+# for the left side by `include-before`)
+chead: \headmark
+# page numbers on outer header
+ohead: \pagemark
+# remove chapter numbers
+chaptermarkformat: \relax
+# remove the outer footer
+ofoot: \relax
+
+# FONT MANAGEMENT
+# ======================================================================
+
+# NB, XeLaTeX and LuaLaTeX load fontspec no matter what
+# fontspec: false
+
+# font families for use with XeLaTeX or LuaLaTeX take the name of any system
+# font, using the fontspec package. Note that if CJKmainfont is used, the xecjk
+# package must be available.
+mainfont: 'STIX Two Text'
+sansfont: 'Libertinus Sans'
+monofont: 'Andale Mono'
+mathfont: 'STIX Two Math'
+CJKmainfont:
+
+# options to use with mainfont, sansfont, monofont, mathfont, CJKmainfont in
+# xelatex and lualatex. Allow for any choices available through fontspec, such
+# as the OpenType features Numbers=OldStyle,Numbers=Proportional. May be
+# specified as string or list.
+# default:
+mainfontoptions: 'Numbers=OldStyle'
+sansfontoptions:
+monofontoptions:
+mathfontoptions:
+CJKoptions:
+
+setkomafonts:
+- element: disposition
+  font: 'Libertinus Serif'
+  fontoptions: 'Numbers=OldStyle'
+  default: \bfseries
+- element: titlehead
+  default: \usekomafont{disposition}
+- element: pagehead
+  defaults: \usekomafont{disposition}\normalfont\small\itshape
+- element: pagefoot
+  defaults: \usekomafont{disposition}\normalfont\small\upshape
+- element: chapter
+  defaults: \usekomafont{display}\huge
+- element: section
+  default: \large\bfseries
+- element: subsection
+  default: \large\normalfont\itshape
+- element: subsubsection
+  default: \large\normalfont
+- element: paragraph
+  default: \normalsize\bfseries
+- element: subparagraph
+  default: \normalsize\normalfont\itshape
+- element: chapterentry
+  font: 'Libertinus Serif'
+  fontoptions: 'Numbers=OldStyle'
+
+newkomafonts:
+- element: display
+  font: 'Libertinus Serif Display'
+  fontoptions: 'Numbers=OldStyle'
+- element: logo
+  font: 'VenusSB-BoldExtended'
+- element: frontispiecedispo
+  font: 'Libertinus Serif'
+  defaults: \small\bfseries
+- element: headerauthor
+  font: 'Libertinus Serif'
+  fontoptions: 'Numbers=OldStyle'
+  default: \small\scshape
+- element: chaptersubtitle
+  defaults: \usekomafont{display}\LARGE
+- element: chapterdisplayauthor
+  font: 'Libertinus Serif'
+  default: \Large\scshape
+- element: chaptertocauthor
+  default: \scshape
+- element: chaptertoctitle
+  default: \itshape
+- element: paperabstract
+  default: \small
+- element: CSLReferences
+  default: \small
+- element: covertitle
+  default: \usekomafont{disposition}\huge\mdseries\itshape
+- element: innertitle
+  default: \usekomafont{covertitle}
+- element: covereditor
+  default: \usekomafont{display}\Large
+- element: innereditor
+  default: \usekomafont{covereditor}
+- element: covereditedby
+  default: \usekomafont{covereditor}
+- element: innereditedby
+  default: \usekomafont{covereditor}
+- element: innerdate
+  default: \usekomafont{display}\Large
+
+addtokomafonts:
+- element: chapter
+  commands: \usekomafont{display}
+
+definecolors:
+- name: dialecticablue
+  model: RGB
+  spec: [0,31,79]
+- name: dialecticalink
+  model: RGB
+  spec: [0,52,127]
+
+colorlinks: true
+linkcolor: dialecticalink
+citecolor: dialecticalink
+urlcolor: dialecticalink
+toccolor: black
+
+
+# TITLEPAGE(S) SETTINGS
+# ======================================================================
+
+# deactivate all templates
+titletemplate-A: false
+titletemplate-B: false
+
+# PANDOC INCLUDES
+# ======================================================================
+include-before:
+- |
+  ```{=latex}
+  \thispagestyle{empty}
+  \let\oldmainmatter\mainmatter
+  \renewcommand{\mainmatter}{\oldmainmatter \setstartingpage}
+  ```
+
+# for content lists
+header-includes: |
+  ```{=latex}
+  % tighter lists
+  \usepackage{enumitem}
+  \setlist[itemize]{noitemsep,topsep=.5\gridbaseline}
+  \setlist[enumerate]{noitemsep,topsep=.5\gridbaseline} 
+
+  % remove chapter number from section, figure, equation, table
+  % and pandoc-crossref `codelisting` floats
+  \renewcommand*{\thesection}{\arabic{section}}
+  \renewcommand*{\thefigure}{\arabic{figure}}
+  \renewcommand*{\theequation}{\arabic{equation}}
+  \renewcommand*{\thetable}{\arabic{table}}
+  \makeatletter
+  \@ifundefined{c@codelisting}{}{
+    \renewcommand*{\thecodelisting}{\arabic{codelisting}}
+  }
+  \makeatother
+
+  % provide paperabstract environment
+  \makeatletter
+  \@ifclassloaded{scrbook}{%
+    \KOMA@ifkey{paperabstract}{@paperabstrt}
+    \newcommand*\paperabstractname{Abstract}
+  }{}
+  \newenvironment{paperabstract}{%
+  \if@twocolumn\if@paperabstrt
+      \addsec*{\paperabstractname}
+    \fi
+  \else
+    \if@paperabstrt
+      \small
+      \begin{center}
+        {\normalfont\sectfont\nobreak\paperabstractname
+          \vspace{-.5em}\vspace{\z@}}%
+      \end{center}
+    \fi
+    \setlength{\emergencystretch}{3em}
+    \usekomafont{paperabstract}
+    \quote
+  \fi
+  }{%
+    \if@twocolumn\else\endquote\fi
+  }
+  \makeatother
+
+  % provide reviewof environment
+  \newenvironment{reviewof}
+    {}
+    {\vskip \gridbaseline
+    \noindent}
+
+  % adjust quotation quotation spacing
+  \renewenvironment{quotation}
+    {\list{}{\rightmargin \leftmargin
+      \topsep .5\gridbaseline
+      \listparindent 1em
+      \itemindent \listparindent
+      \parsep 0pt plus1pt minus1pt}%
+      \item\relax}
+    {\endlist}
+  \renewenvironment{quote}
+    {\list{}{\rightmargin \leftmargin
+      \topsep .5\gridbaseline plus2pt minus1pt
+      \parsep .5\gridbaseline plus2pt minus1pt
+    }%
+      \item\relax}
+    {\endlist}
+
+  % table of contents
+  \addtotoclist{toc.front}
+  \addtotoclist{toc.main}
+  \addtotoclist{toc.back}
+   \DeclareTOCStyleEntry[%
+    beforeskip=.2em,
+    linefill=\dotfill,
+    ]{tocline}{chapter}
+
+  % provide signature block
+  \newenvironment{signature}{%
+    \nopagebreak\setlength{\parindent}{0pt}\begin{flushright}%
+  }{%
+    \end{flushright}
+  }
+
+  % for the statement filter
+  \usepackage{amsthm}
+  \newtheoremstyle{emptynoindent}%
+      {1em} % space above
+      {1em} % space below
+      {\addtolength{\leftskip}{2em}\addtolength{\rightskip}{2em}\parindent 0pt} % body font
+      {0pt} % first line indentation (empty = no indent)
+      {} % theorem head font
+      {} % punctuation after theorem head
+      {0pt} % space after theorem head
+      {{}} % theorem head spec
+  \newtheoremstyle{empty}%
+      {.5\gridbaseline plus2pt minus1pt} % space above
+      {.5\gridbaseline plus2pt minus1pt} % space below
+      {\addtolength{\leftskip}{2em}\addtolength{\rightskip}{2em}} % body font
+      {0pt} % first line indentation
+      {} % theorem head font
+      {} % punctuation after theorem head
+      {0pt} % space after theorem head
+      {{}} % theorem head spec  
+  \theoremstyle{empty}
+  \newtheorem{statement}{}
+  \theoremstyle{emptynoindent}
+  \newtheorem{argument}{}
+
+  % for the labelled-list filter
+  % labelled-lists: code for crossreferencing by custom labels
+  \makeatletter
+    \def\labelledlistlabel#1#2{\begingroup
+    \def\@currentlabel{#2}%
+    \label{#1}\endgroup
+    }
+  \makeatother
+
+  % needs to provide multicol for the columns filter
+  \usepackage{multicol}
+
+  % needs to provide table commands
+  \usepackage{longtable,booktabs,array}
+  \usepackage{calc} % for calculating minipage widths
+  \usepackage{multirow}
+  % Correct order of tables after \paragraph or \subparagraph
+  \usepackage{etoolbox}
+  \makeatletter
+  \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+  \makeatother
+  % Allow footnotes in longtable head/foot
+  \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+  \makesavenoteenv{longtable}
+  %-----------------------------------------------------------------BUGFIX
+  %--------------redefine longtable because it doesn't work in multicolumn
+  %------------------------------------------------------solves the error:
+  %-----------"! Package longtable Error: longtable not in 1-column mode."
+  %------------------------------occuring in twocolumn mode (class option)
+  %-------------------see issue: https://github.com/jgm/pandoc/issues/1023
+  %------------------------------source: Marco Torchian@tex.stackexchange:
+  %---------------------------https://tex.stackexchange.com/q/161431/43790
+  %--------------------------------------------------------------start fix
+  %   \makeatletter
+  %   \let\oldlt\longtable
+  %   \let\endoldlt\endlongtable
+  %   \def\longtable{\@ifnextchar[\longtable@i \longtable@ii}
+  %   \def\longtable@i[#1]{\begin{figure*}[t]
+  %   \onecolumn
+  %   \centering
+  %   \begin{minipage}{0.99\textwidth}
+  %   \oldlt[#1]
+  %   }
+  %   \def\longtable@ii{\begin{figure*}[t]
+  %   \onecolumn
+  %   \centering
+  %   \begin{minipage}{0.99\textwidth}
+  %   \oldlt
+  %   }
+  %   \def\endlongtable{\endoldlt
+  %   \end{minipage}
+  % %----------to switch back to "\onecolumn"/"\twocolumn" if classoption is
+  % %-------------------------------------------------"oncolumn"/"twocolumn"
+  %   \ifonecol
+  %   \onecolumn
+  %   \else
+  %   \twocolumn
+  %   \fi
+  %   \end{figure*}}
+  %   \makeatother
+  % %----------------------------------------------------------------end fix
+
+  % needs to add graphics commands
+  \usepackage{graphicx,grffile}
+  \makeatletter
+  \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+  \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+  \makeatother
+  % Scale images if necessary, so that they will not overflow the page
+  % margins by default, and it is still possible to overwrite the defaults
+  % using explicit options in \includegraphics[width, height, ...]{}
+  \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+  % Set default figure placement to htbp
+  \makeatletter
+  \def\fps@figure{htbp}
+  \makeatother
+
+  % needs to provide csl-refs commands
+  \newlength{\cslhangindent}
+  \setlength{\cslhangindent}{1.5em}
+  \newlength{\csllabelwidth}
+  \setlength{\csllabelwidth}{3em}
+  \newlength{\cslentryspacingunit} % times entry-spacing
+  \setlength{\cslentryspacingunit}{\parskip}
+  \newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+   {% don't indent paragraphs
+    \setlength{\parindent}{0pt}
+    % turn on hanging indent if param 1 is 1
+    \ifodd #1
+    \let\oldpar\par
+    \def\par{\hangindent=\cslhangindent\oldpar}
+    \fi
+    % set entry spacing
+    \setlength{\parskip}{#2\cslentryspacingunit}
+   }%
+   {}
+  \usepackage{calc} % for calculating inline width
+  \newcommand{\CSLBlock}[1]{#1\hfill\break}
+  \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+  \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+  \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+  % needs to provide ulem
+  \usepackage[normalem]{ulem}
+  % avoid problems with \sout in headers with hyperref:
+  \pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+
+
+  % adjust Pandoc's default csl-refs commands
+  \usepackage{etoolbox}
+  \AtBeginEnvironment{CSLReferences}{%
+    \setlength{\emergencystretch}{15em} % prevent overfull lines, esp urls
+    \usekomafont{CSLReferences}}
+ 
+  ```
+
+# DEFAULT PACKAGES
+# ======================================================================
+
+# EXTRA PACKAGES
+# ======================================================================
+
+# user latex packages
+latex-packages:
+- pagecolor # for title page
+- afterpage # for title page
+- tabularx # for title head
+- multirow # for title head
+- xltabular # for tables 
+- package: nowidow
+  options: all
+- tikz # for tikz and esap logo
+- eso-pic # for banner in offprints
+
+# COMMON PANDOC SETTINGS
+# ======================================================================
+
+# uses document class settings for indentation (the default LaTeX template
+# otherwise removes indentation and adds space between paragraphs)
+# default:
+indent: true
+
+lang: en
+
+# for HTML output only
+html-math-method:
+    method: mathjax
+    url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" 
+
+
+# EXTRA SETTINGS
+# ======================================================================
+frenchspacing: true

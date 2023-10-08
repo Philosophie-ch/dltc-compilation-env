@@ -1,0 +1,5 @@
+# Defaults common to issue, books, offprints
+standalone: true
+pdf-engine: lualatex
+template: ${.}/templates/dialectica
+number-sections: true

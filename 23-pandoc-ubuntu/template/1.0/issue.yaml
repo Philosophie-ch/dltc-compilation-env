@@ -1,0 +1,13 @@
+# Dialectica issue defaults
+# v 1.0
+standalone: true
+pdf-engine: lualatex
+template: ${.}/templates/pandokoma-bare.latex
+# Filters 
+filters:
+- ${.}/filters/dialectica-meta-format.lua
+metadata-files:
+- ${.}/settings/common-koma.yaml
+- ${.}/settings/issue-koma.yaml
+# in case some sources are imported in native mode
+number-sections: true

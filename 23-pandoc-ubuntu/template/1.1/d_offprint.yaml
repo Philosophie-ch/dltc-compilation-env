@@ -1,0 +1,4 @@
+# Filters 
+filters:
+- ${.}/filters/scholarly-metadata.lua # for offprint mode, post-gather
+- ${.}/filters/dialectica-meta-format.lua

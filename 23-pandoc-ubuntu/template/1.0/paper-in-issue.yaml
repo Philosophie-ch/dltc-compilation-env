@@ -1,0 +1,55 @@
+# Dialectica paper within issue defaults
+# v 1.0
+
+standalone: true
+pdf-engine: lualatex
+template: ${.}/templates/paper-in-issue
+number-sections: true
+# filters
+#   abstract-to-meta should be placed before pandoc-crossref
+#   crossref comes before citeproc
+#   first-line-indent before filters that introduce raw code (statement, labelled-lists)
+filters: 
+- ${.}/filters/sections-to-meta.lua
+- ${.}/filters/not-in-format.lua
+- ${.}/filters/first-line-indent.lua
+- ${.}/filters/statement.lua
+- ${.}/filters/labelled-lists.lua
+- ${.}/filters/columns.lua
+- ${.}/filters/pandoc-crossref
+- ${.}/filters/recursive-citeproc.lua
+- citeproc
+- ${.}/filters/bib-place.lua
+- ${.}/filters/scholarly-metadata.lua
+- ${.}/filters/scholarly-format.lua
+# images
+extract-media: media
+# math
+html-math-method:
+    method: mathjax
+    url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" 
+# csl
+csl: ${.}/csl/dialectica.csl
+# metadata variables
+# use en-GB to avoid citeproc moving punctuations inside quotes, even in the text
+metadata:
+  link-citations: true 
+  indent: true
+  lang: en
+# pandoc-crossref metadata options
+  autoSectionLabels: true
+  linkReferences: true
+  chapters: false # non-LaTeX output, don't add chap number
+  figPrefix: [figure, figures]
+  eqnPrefix: [eq., eqns.]
+  tblPrefix: [table, tables]
+  lstPrefix: [listing, listings]
+  secPrefix: [section, sections]
+# statement filter options
+  statement:
+    latexskipinlist: '.5\gridbaseline plus2pt minus1pt'
+    latexrightskipinlist: '2em'
+# first-line-indent filter options
+  first-line-indent:
+    remove-after-class: [statement, argument]
+

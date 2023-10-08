@@ -1,0 +1,36 @@
+# Dialectica paper within issue defaults
+# v 1.0
+
+standalone: true
+pdf-engine: lualatex
+template: ${.}/templates/paper-in-issue
+number-sections: true
+# filters
+#   sections-to-meta should be placed before pandoc-crossref
+#   crossref comes before citeproc
+#   first-line-indent before filters that introduce raw code (statement, labelled-lists)
+filters: 
+- ${.}/filters/sections-to-meta.lua
+- ${.}/filters/not-in-format.lua
+- ${.}/filters/secnumdepth.lua
+- ${.}/filters/image-attributes.lua
+- ${.}/filters/first-line-indent.lua
+- ${.}/filters/statement.lua
+- ${.}/filters/labelled-lists.lua
+- ${.}/filters/columns.lua
+- ${.}/filters/imagify.lua
+- ${.}/filters/pandoc-crossref.exe
+- ${.}/filters/recursive-citeproc.lua
+- citeproc
+- ${.}/filters/bib-place.lua
+- ${.}/filters/scholarly-metadata.lua
+- ${.}/filters/scholarly-format.lua
+# math
+html-math-method:
+    method: mathjax
+#    updated for Pandoc 3.1.2
+    url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" 
+# csl
+csl: ${.}/csl/dialectica.csl
+# metadata variables
+metadata-file: ${.}/settings/paper-in-issue.yaml

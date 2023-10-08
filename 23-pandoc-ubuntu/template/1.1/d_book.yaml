@@ -1,0 +1,4 @@
+# Filters 
+filters:
+- ${.}/filters/dialectica-meta-format.lua
+- ${.}/filters/statement-isolate.lua # fix statement conflicts

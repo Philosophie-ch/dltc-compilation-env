@@ -1,0 +1,40 @@
+# pandoc variables
+# use en-GB to avoid citeproc moving punctuations inside quotes, even in the text
+link-citations: true 
+indent: true
+lang: en
+# pandoc-crossref metadata options
+autoSectionLabels: true
+linkReferences: true
+chapters: false # non-LaTeX output, don't add chap number
+figPrefix: [figure, figures]
+eqnPrefix: [eq., eqns.]
+tblPrefix: [table, tables]
+lstPrefix: [listing, listings]
+secPrefix: [section, sections]
+# statement filter options
+statement:
+  define-in-header: false
+  latexskipinlist: '.5\gridbaseline plus2pt minus1pt'
+  latexrightskipinlist: '2em'
+# first-line-indent filter options
+first-line-indent:
+  remove-after-class: statement
+# imagify filter options
+imagify: 
+  debug: false
+  embed: true
+  output-folder: _imagify
+  pdf-engine: xelatex
+  zoom: 1.6
+  mainfont: STIX Two Text
+  mainfontoptions:
+    - 'Numbers=OldStyle'
+    - 'Ligatures=TeX'
+    - 'Scale=1'
+  mathfont: STIX Two Math
+  mathfontoptions:
+    - 'Scale=MatchLowercase'
+  header-includes: 
+
+
