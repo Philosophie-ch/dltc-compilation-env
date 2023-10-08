@@ -1,0 +1,23 @@
+# Metadata settings for all output formats
+
+# STRUCTURE
+# ======================================================================
+
+# no standard toc, we design our own
+toc: false
+
+# division headings
+secnumdepth: 3
+
+
+# COMMON PANDOC SETTINGS
+# ======================================================================
+
+# first-line indent
+indent: true
+
+lang: en
+
+# EXTRA SETTINGS
+# ======================================================================
+frenchspacing: true

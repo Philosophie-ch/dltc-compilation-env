@@ -1,0 +1,182 @@
+# Dialectica book settings
+# - to be loaded after common.yaml
+
+# firstiscover, not titlepage
+komaoption:
+- option: titlepage
+  value: firstiscover
+
+# title pages
+# we don't use \maketitle as KOMA's default
+# title page doesn't have a slot for contents
+nomaketitle: true
+rawtitlecode: |
+  ```{=latex}
+
+  % COVER
+  {
+    \setcounter{page}{1}
+    \thispagestyle{empty}
+    \setlength\parindent{0pt}
+    \newpagecolor{dialecticablue}\afterpage{\restorepagecolor}
+    \color{white}
+    \vskip 56pt
+    \begin{center}
+    \usekomafont{logo}
+    {\fontsize{48}{54}\selectfont dialectica}
+    \vskip 10pt
+    {\fontsize{12}{15}\selectfont\addfontfeature{LetterSpace=7.0} International Journal of Philosophy }
+    \vskip 4pc
+    \parbox{.75\textwidth}{\centering%
+      \printcovertitle
+    }
+    \end{center}
+    \vskip 3pc%
+    \begingroup
+    \usekomafont{logo}\Large Contents
+    \endgroup
+    \vskip \toctitleskip
+    {% be sure to vskip before this element
+      \hypersetup{linkcolor=white}
+      \listoftoc*{toc.front}
+    }
+    \vfill
+
+    % logo should be 55pt wide, but the setting doesn't work
+    \usekomafont{logo}
+    \noindent
+    \begin{tabularx}{\textwidth}{@{}X@{}r@{}}
+      \multirow[t]{2}{*}{%
+          \raisebox{-\baselineskip}{\logoesap{55pt}{!}{white}}%
+      } & Vol~\printvolume~:~\printissue \\
+          & \printdate \\
+    \end{tabularx}
+    \normalcolor
+  }
+
+  % INSIDE FRONT COVER
+  \clearpage\thispagestyle{empty}
+  {
+    \begin{center}
+      {\usekomafont{logo}\Large dialectica}
+      \vskip \baselineskip
+      \footnotesize\normalfont International Journal of Philosophy \\
+      Official Organ of the European Society of Analytic Philosophy
+      \vskip .5\baselineskip
+      founded in 1947 by Gaston Bachelard, Paul Bernays and Ferdinand Gonseth\\
+    \end{center}
+    \vskip \baselineskip
+    \footnotesize\normalfont
+    \setlength{\parindent}{0pt}
+    {\usekomafont{frontispiecedispo} Editorial Board}
+    \vskip .5\baselineskip
+    \editorialboard
+
+    \vskip .5\baselineskip
+    {\usekomafont{frontispiecedispo} Editors}
+    \vskip .5\baselineskip
+    \journaleditors
+
+    \vskip .5\baselineskip
+    {\usekomafont{frontispiecedispo} Review Editors}
+    \vskip .5\baselineskip
+    \revieweditors
+    
+    \vskip .5\baselineskip
+    {\usekomafont{frontispiecedispo} Editorial Committee}
+    \vskip .5\baselineskip
+    \editorialcommittee.
+
+    \vskip .5\baselineskip
+    {\usekomafont{frontispiecedispo} Consulting Board}
+    \vskip .5\baselineskip
+    \consultingboard.
+
+  }
+
+  % TITLE PAGE
+  \begin{titlepage}
+  % title head
+  { 
+    \noindent
+    \usekomafont{logo}
+    \begin{tabularx}{\textwidth}{@{}X@{}r@{}}
+      \multirow[t]{2}{*}{\raisebox{-\baselineskip}{\Huge dialectica}} & vol \printvolume\\
+                & issue \printissue\\
+    \end{tabularx}
+  }
+  \vskip 3pc
+
+  % title
+  \begin{center}
+    \printinnertitle
+    \vskip 12pt
+    \usekomafont{innerdate} \printdate
+  \end{center}
+  \vskip 3pc
+
+  % contents
+  \parbox{\textwidth}
+    {\normalsize % need to reset font size, or use komafont?
+      \noindent {\Large\usekomafont{logo} Contents}
+      \vskip \toctitleskip
+      {% be sure to vskip before this element
+        \hypersetup{linkcolor=black}
+        \listoftoc*{toc.main}
+      }
+    }
+  \end{titlepage}
+  ```
+# back cover
+
+include-after: |
+  ```{=latex}
+  \cleardoublepage % ensures a recto page
+  {
+    \thispagestyle{empty}
+    \normalfont\normalsize
+
+    \begin{center}
+
+    Published by \textit{Philosophie.ch}
+    \vskip 1em
+
+    Verein philosophie.ch\\
+    Fabrikgässli 1\\
+    2502 Biel/Bienne\\
+    Switzerland \\
+    \url{dialectica@philosophie.ch} 
+    \vskip 1em
+
+    \url{https://dialectica.philosophie.ch/} 
+    \vskip 1em
+
+    \printISSNline 
+    \vskip 1em
+
+    \printISBNline
+    \vskip 1em
+
+    This work is licensed under a \href{https://creativecommons.org/licenses/by/4.0/}{Creative Commons Attribution 4.0 International License}.
+    \vskip 1em
+
+    \textit{Dialectica} is supported by \sponsors.
+    \vskip 1em
+
+    Abstracting and Indexing Services\\[.5em]
+    The journal is indexed by \indexingservices.
+
+    \end{center}
+
+    \clearpage
+    \thispagestyle{empty}
+    \newpagecolor{dialecticablue}\afterpage{\restorepagecolor}
+    \color{white}
+    \noindent {\usekomafont{logo}\Large Contents}
+     \vskip \toctitleskip
+    {% be sure to vskip before this element
+      \hypersetup{linkcolor=white}
+      \listoftoc*{toc.back}
+    }
+  }
+  ```

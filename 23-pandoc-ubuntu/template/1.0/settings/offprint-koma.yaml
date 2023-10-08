@@ -1,0 +1,70 @@
+# Dialectica offprint settings
+# - to be loaded after common-koma.yaml
+
+# titlepage, not firstiscover
+komaoption:
+- option: titlepage
+  value: yes
+
+# title pages
+# we don't use \maketitle as KOMA's default
+# title page doesn't have a slot for contents
+nomaketitle: true
+rawtitlecode: |
+  ```{=latex}
+  \begin{titlepage}
+  \setcounter{page}{0}
+  \AddToShipoutPictureBG*{%
+  \AtPageUpperLeft{%
+  \color{dialecticablue}\rule[-0.2\paperheight]{\paperwidth}{0.2\paperheight}}}
+  \setlength{\parindent}{0pt}
+  {
+      \color{white}\usekomafont{logo} 
+      \begin{tabularx}{\textwidth}{@{}X@{}r@{}}
+      \multirow[t]{2}{*}{%
+          \raisebox{-\baselineskip}{\Huge dialectica}%
+        } & Vol~\printvolume~:~\printissue \\
+           & \printdate \\
+      \end{tabularx}  
+  }
+  \vskip 7pc
+
+  \begin{center}
+    \usekomafont{display}
+    \Huge \printtitle
+    \vskip 18pt
+    \usekomafont{disposition}\normalfont
+    \Large \textsc{\printauthor}
+  \end{center}
+
+  \vfill
+
+  \begin{center}
+    Copyright 2021 \printauthor
+    \vskip \baselineskip
+    \parbox{.75\textwidth}{\small 
+      Work licensed under a Creative Commons Attribution 
+            4.0 International License.
+    }
+    \vskip .5\baselineskip
+    \renewcommand\tabularxcolumn[1]{b{#1}}  
+    \begin{tabularx}{.75\textwidth}{lX}
+        \logoccbyinline{!}{11pt}
+          & \footnotesize \href{https://creativecommons.org/licenses/by/4.0/}{creativecommons.org/licenses/by/4.0/}
+    \end{tabularx}
+    \renewcommand\tabularxcolumn[1]{p{#1}}  
+  \end{center}
+
+  \vskip 2pc
+  
+  \noindent
+  \begin{tabularx}{\textwidth}{@{}lXr@{}}
+    \logoesap{55pt}{!}{black}
+    & 
+    & \logoopenaccess{!}{30pt} \\
+  \end{tabularx}
+ 
+  \end{titlepage}
+  ```
+#   back cover (none)
+include-after: 

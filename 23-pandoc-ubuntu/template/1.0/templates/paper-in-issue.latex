@@ -1,0 +1,66 @@
+\setchapterpreamble[u]{\centering %
+  $if(subtitle)$%
+  \usekomafont{chaptersubtitle}$if(subtitle-latex)$$subtitle-latex$$else$$subtitle$$endif$ %
+  \vskip \chapterwithsubtitleskip
+  $else$%
+  \vskip \chapterwithoutsubtitleskip
+  $endif$%
+  \usekomafont{chapterdisplayauthor}$for(author)$$it.name$$sep$, $endfor$%
+  \vskip \chapterskip % note \centering requires ending with a \vskip or \par
+}
+\chapter[head={$if(shorttitle)$$shorttitle$$else$$title$$endif$},
+  tocentry={$if(author-header)$$for(author-header)$$it$$sep$, $endfor$%
+  $else$$for(author)$$it.name$$sep$, $endfor$$endif$, %
+  $if(shorttitle)$$shorttitle$$else$$title$$endif$}]
+  {$if(title-latex)$$title-latex$$else$$title$$endif$}
+\cehead{%
+  {\usekomafont{headerauthor}%
+  $if(author-header)$$for(author-header)$$it$$sep$, $endfor$%
+  $else$$for(author)$$it.name$$sep$, $endfor$$endif$}
+}
+\lefoot{%
+  Dialectica $if(volume)$vol.\,$volume$$if(issue)$, n°\,$issue$$endif$$endif$%
+}
+\rofoot{%
+  $if(doi)$doi:~\href{https://doi.org/$doi$}{$doi$}$endif$%
+}
+\addxcontentsline{toc.front}{chapter}{%
+  {\usekomafont{chaptertocauthor}$if(author-toc)$$author-toc$$else$%
+  $for(author)$$it.name$$sep$, $endfor$$endif$}, %
+  {\usekomafont{chaptertoctitle}$title$$if(subtitle)$$if(subtitle-separator)$$subtitle-separator$$else$: $endif$$subtitle$$endif$}%
+}
+\addxcontentsline{toc.main}{chapter}{%
+  {\usekomafont{chaptertocauthor}$if(author-toc)$$author-toc$$else$%
+  $for(author)$$it.name$$sep$, $endfor$$endif$}, %
+  {\usekomafont{chaptertoctitle}$title$$if(subtitle)$$if(subtitle-separator)$$subtitle-separator$$else$: $endif$$subtitle$$endif$}%
+}
+\addxcontentsline{toc.back}{chapter}{%
+  {\usekomafont{chaptertocauthor}$if(author-toc)$$author-toc$$else$%
+  $for(author)$$it.name$$sep$, $endfor$$endif$}, %
+  {\usekomafont{chaptertoctitle}$title$$if(subtitle)$$if(subtitle-separator)$$subtitle-separator$$else$: $endif$$subtitle$$endif$}%
+}
+$if(reviewof)$%
+\begin{reviewof}
+$for(reviewof)$$it$$sep$ \vskip .5\gridbaseline
+$endfor$
+\end{reviewof}% ignore end of line here to ensure no indent
+$elseif(abstract)$%
+\begin{paperabstract}
+$abstract$
+\end{paperabstract}% ignore end of line here to ensure no indent
+$endif$%
+%
+$body$$if(thanks)$\renewcommand{\thefootnote}{\fnsymbol{footnote}}%
+\footnote[1]{$thanks$}
+\renewcommand{\thefootnote}{\arabic{footnote}}$endif$
+\begin{signature}
+$for(author)$
+$author.name$
+$if(author.ORCID)$\\ $author.ORCID$$endif$%
+$if(author.institutename)$\\ $for(author.institutename)$$author.institutename$$sep$\\ $endfor$$endif$%
+$if(author.correspondence)$\\ $if(author.email)$$author.email$$endif$$endif$%
+$endfor$
+\end{signature}
+
+% Refs should be below this
+$if(referencesblock)$$referencesblock$$endif$

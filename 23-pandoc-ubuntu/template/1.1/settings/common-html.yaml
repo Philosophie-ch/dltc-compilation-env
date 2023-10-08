@@ -1,0 +1,7 @@
+# for HTML output only
+html-math-method:
+    method: mathjax
+    url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+# imagify filter
+imagify:
+    zoom: 1.5

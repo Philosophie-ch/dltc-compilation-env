@@ -1,0 +1,43 @@
+<link rel="schema.DC" href="http://purl.org/dc/terms/" />
+    <meta name="DC.Format" scheme="IMT" content="application/pdf"/>
+$if(lang)$
+    <meta name="DC.Language" scheme="ISO639-1" content="$lang$"/>
+$endif$
+$if(title)$
+    <meta name="DC.Title" content="$title$"/>
+$endif$
+$for(author-meta)$
+    <meta name="DC.Creator.PersonalName" content="$author-meta$" />
+$endfor$
+$if(date-meta)$
+    <meta name="DC.Date.created" scheme="ISO8601" content="$date-meta$" />
+$endif$
+$if(abstract)$
+    <meta name="DC.Description" $if(lang)$xml:lang="$lang$"$endif$ content="$abstract-text$"/>
+$endif$
+$if(doi)$
+    <meta name="DC.Identifier.DOI" content="$doi$"/>
+$endif$
+$if(issn)$
+    <meta name="DC.Source.ISSN" content="$issn$"/>
+$endif$
+$if(isbn)$
+    <meta name="DC.Source.ISBN" content="$isbn$"/>
+$endif$
+$if(dc)$
+$for(dc.type)$
+    <meta name="DC.Type" content="$it$"/>
+$endfor$
+$for(dc.articleType)$
+    <meta name="DC.Type.articleType" content="$it$"/>
+$endfor$
+$for(dc.source)$
+    <meta name="DC.Source" content="$it$"/>
+$endfor$
+$for(dc.source-URI)$
+    <meta name="DC.Source.URI" content="$it$"/>
+$endfor$
+$for(dc.rights)$
+    <meta name="DC.Rights" content="$it$"/>
+$endfor$
+$endif$

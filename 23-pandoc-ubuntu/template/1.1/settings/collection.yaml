@@ -1,0 +1,16 @@
+templatefolder: "TEMPLATEFOLDER"
+collection:
+  defaults: "DEFAULTSFILE"
+  mode: raw
+  isolate: true
+  gather: header-includes
+  pass: [volume, issue]
+offprints:
+  defaults: "DEFAULTSFILE"
+  mode: raw
+  isolate: true
+  gather: [header-includes, title, subtitle, author, 'title-latex',
+    'subtitle-latex', title-cover', 'subtitle-cover', 
+    'title-tex-size', 'subtitle-tex-size', abstract, thanks]
+  replace: [first-page, last-page, doi]
+  pass: [volume, issue, secnumdepth ]

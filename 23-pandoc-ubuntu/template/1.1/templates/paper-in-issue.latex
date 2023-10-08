@@ -1,0 +1,69 @@
+\setchapterpreamble[u]{\centering %
+  $if(subtitle)$%
+  \usekomafont{chaptersubtitle}$if(subtitle-latex)$$subtitle-latex$$else$$subtitle$$endif$ %
+  \vskip \chapterwithsubtitleskip 
+  $else$%
+  \vskip \chapterwithoutsubtitleskip
+  $endif$%
+  \usekomafont{chapterdisplayauthor}
+  $if(author/allbutlast)$$for(author/allbutlast)$$author.name$$sep$, $endfor$ \& $for(author/last)$$it.name$$endfor$$else$$for(author)$$author.name$$endfor$$endif$
+  \vskip \chapterskip % note \centering requires ending with a \vskip or \par
+}
+\chapter[head={$if(shorttitle)$$shorttitle$$else$$title$$endif$},
+  tocentry={$if(author-header)$$author-header$$else$%$if(author/allbutlast)$$for(author/allbutlast)$$it.name$$sep$, $endfor$ \& $for(author/last)$$it.name$$endfor$$else$$for(author)$$author.name$$endfor$$endif$$endif$, %
+  $if(shorttitle)$$shorttitle$$else$$title$$endif$}]
+  {$if(title-latex)$$title-latex$$else$$title$$endif$}
+$if(collection-first-import)$\setissuestartingpage$else$\setstartingpage$endif$
+\cehead{%
+  {\usekomafont{headerauthor}$if(author-header)$$author-header$$else$$if(author/allbutlast)$$for(author/allbutlast)$$it.name$$sep$, $endfor$ \& $for(author/last)$$it.name$$endfor$$else$$for(author)$$author.name$$endfor$$endif$$endif$}
+}
+\lefoot{%
+  Dialectica $if(volume)$vol.\,$volume$$if(issue)$, n°\,$issue$$endif$$endif$%
+}
+\rofoot{%
+  $if(doi)$doi:~\href{https://doi.org/$doi$}{$doi$}$endif$%
+}
+\addxcontentsline{toc.front}{chapter}{%
+  {\usekomafont{chaptertocauthor}$if(author-toc)$$author-toc$$else$$if(author/allbutlast)$$for(author/allbutlast)$$it.name$$sep$, $endfor$ \& $for(author/last)$$it.name$$endfor$$else$$for(author)$$author.name$$endfor$$endif$$endif$}, %
+  {\usekomafont{chaptertoctitle}$title$$if(subtitle)$$if(subtitle-separator)$$subtitle-separator$$else$: $endif$$subtitle$$endif$}%
+}
+\addxcontentsline{toc.main}{chapter}{%
+  {\usekomafont{chaptertocauthor}$if(author-toc)$$author-toc$$else$$if(author/allbutlast)$$for(author/allbutlast)$$it.name$$sep$, $endfor$ \& $for(author/last)$$it.name$$endfor$$else$$for(author)$$author.name$$endfor$$endif$$endif$}, %
+  {\usekomafont{chaptertoctitle}$title$$if(subtitle)$$if(subtitle-separator)$$subtitle-separator$$else$: $endif$$subtitle$$endif$}%
+}
+\addxcontentsline{toc.back}{chapter}{%
+  {\usekomafont{chaptertocauthor}$if(author-toc)$$author-toc$$else$$if(author/allbutlast)$$for(author/allbutlast)$$it.name$$sep$, $endfor$ \& $for(author/last)$$it.name$$endfor$$else$$for(author)$$author.name$$endfor$$endif$$endif$}, %
+  {\usekomafont{chaptertoctitle}$title$$if(subtitle)$$if(subtitle-separator)$$subtitle-separator$$else$: $endif$$subtitle$$endif$}%
+}
+$if(reviewof)$\begin{reviewof}%
+$for(reviewof)$$it$$sep$ \vskip .5\gridbaseline$endfor$
+\end{reviewof}%
+$elseif(abstract)$\begin{paperabstract}
+$abstract$
+\end{paperabstract}
+$endif$
+$body$$if(thanks)$\renewcommand{\thefootnote}{\fnsymbol{footnote}}%
+\footnote[1]{$thanks$}
+\renewcommand{\thefootnote}{\arabic{footnote}}$endif$
+\begin{signature}
+$for(author/allbutlast)$$it.name$
+  $if(it.ORCID)$\\ \ORCIDid $it.ORCID$$endif$%
+  $if(it.institutename)$\\ 
+    $for(it.institutename/allbutlast)$$it$\\$endfor$%
+    $for(it.institutename/last)$$it$$endfor$%
+  $endif$%
+  $if(it.correspondence)$$for(it.email)$\\$it$$endfor$$endif$\\
+  \medskip
+$endfor$%
+$for(author/last)$$it.name$%
+  $if(it.ORCID)$\\ \ORCIDid $it.ORCID$$endif$%
+  $if(it.institutename)$\\ 
+    $for(it.institutename/allbutlast)$$it$\\$endfor$%
+    $for(it.institutename/last)$$it$$endfor$%
+  $endif$%
+  $if(it.correspondence)$$for(it.email)$\\$it$$endfor$$endif$\\
+$endfor$%
+\end{signature}
+
+% Refs should be below this
+$if(referencesblock)$$referencesblock$$endif$

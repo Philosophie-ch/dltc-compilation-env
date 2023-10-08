@@ -1,0 +1,31 @@
+$-- Placing mathjax here
+$--    $math$ isn't set in the master doc
+$--    so the dialectica.html template can't see it
+$-- STIX-web, llrbracket, rrbracket: for the future!
+$-- MathJaX 3.2 doesn't (yet) support STIX
+$-- https://docs.mathjax.org/en/v3.2-latest/output/fonts.html
+$if(math)$
+$if(mathjax)$
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+$endif$
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {fonts: ['STIX-web']},
+    SVG: {font: 'STIX-Web'},
+    TeX: {Augment: {
+      Definitions: {
+        delimiter: {
+          '\\llbracket': '27E6',
+          '\\rrbracket': '27E7
+        }
+      }
+    }}
+  });
+</script>
+  $math$
+$endif$
+$if(reviewof)$<div class='reviewof'>
+$for(reviewof)$$it$$endfor$
+</div>$endif$
+$body$
+$if(referencesblock)$$referencesblock$$endif$
