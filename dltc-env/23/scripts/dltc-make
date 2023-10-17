@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+pandoc lua /template/1.1/scripts/make.lua $@
