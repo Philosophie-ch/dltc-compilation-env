@@ -1,8 +1,0 @@
-#! /bin/sh
-
-# change direcory to where this script is being called
-script_dir="$( dirname "$0" )"
-builtin cd $script_dir
-
-# original dltc make.sh command
-pandoc lua /template/1.1/scripts/make.lua $@
