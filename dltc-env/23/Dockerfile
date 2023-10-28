@@ -40,7 +40,7 @@ RUN mkdir -p /template
 COPY template/ /template/
 
 # The entrypoint script will be at PATH, so it can be called from anywhere
-COPY LaunchScript /usr/local/bin/
+COPY /scripts/LaunchScript /usr/local/bin/
 RUN chmod a+x /usr/local/bin/LaunchScript
 
 # Non-sudoer user configuration
