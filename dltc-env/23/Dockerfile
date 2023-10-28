@@ -39,6 +39,9 @@ RUN chmod +x /usr/local/bin/dltc-make
 RUN mkdir -p /template
 COPY template/ /template/
 
+# The entrypoint script will be at PATH, so it can be called from anywhere
+COPY LaunchScript /usr/local/bin/
+RUN chmod a+x /usr/local/bin/LaunchScript
 
 # Non-sudoer user configuration
 ARG CONTAINER_USER=copyeditor
@@ -49,9 +52,6 @@ RUN useradd --create-home --shell=/bin/bash $CONTAINER_USER \
 
 
 USER $CONTAINER_USER
-
-
-
 WORKDIR $CONTAINER_HOME
 
 
