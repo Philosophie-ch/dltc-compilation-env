@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+
+# Working example:
+docker run --rm --name dltc-env -it -p 7655:22 -v /home/copyeditor/dltc-workhouse:/dltc-workhouse dltc-env:latest bash

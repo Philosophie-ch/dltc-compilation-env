@@ -2,44 +2,38 @@
 
 # Entrypoint for the container
 
-# Start the ssh server inside the container
-service ssh start
+#DLTC_WORKHOUSE_DIR="/dltc-workhouse"
 
-
-function cd_host_wd() {
-    if [ -z "${HOST_CWD}" ]; then
-        echo "redactorLaunch: HOST_CWD not set"
-        echo "defaulting to ${HOME}"
-        cd "${HOME}"
-    else
-        cd "${HOST_CWD}"
-    fi
-}
+#cd ${DLTC_WORKHOUSE_DIR}
 
 case "$1" in
 
-    # TODO: Add help.msg
-    #"-h" | "--help" | "help")
-        #help.msg
-        #exit 0 ;;
+    "ssh")
+        if ! pgrep sshd > /dev/null; then
+            echo "LaunchScript: Starting SSH server..."
+            service ssh start && echo "LaunchScript: SSH server started."
+            rm -rf ${HOME}/.ssh
+            mkdir ${HOME}/.ssh
+            wget https://raw.githubusercontent.com/alebg/dltc-compilation-env/alebg/issue7/copyeditor%20files/copyediting_team_public_keys -O ${HOME}/.ssh/authorized_keys
+            echo "" >> ${HOME}/.ssh/authorized_keys
+        else
+            echo "LaunchScript: SSH server already running."
+        fi
 
-    "manual" | "bash" | "sh")
-        cd_host_wd
-        ( exec bash -l; )
+        # Keep the container alive
+        while true; do sleep 1000; done
+
         exit 0 ;;
 
     "pandoc" | "pandoc-crossref")
-        cd_host_wd
         "/usr/local/bin/${1}" ${@:2}
         exit 0 ;;
 
     "inkscape")
-        cd_host_wd
         /usr/bin/inkscape ${@:2}
         exit 0 ;;
 
     "pdflatex" | "xelatex" | "bibtex" | "latexmk" | "synctex" | "texcount" | "latexindent")
-        cd_host_wd
         "/opt/texlive/texdir/bin/default/${1}" ${@:2}
         exit 0 ;;
 
