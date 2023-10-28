@@ -1,0 +1,13 @@
+version: '3'
+services:
+  dltc-env-server:
+    image: dltc-env:latest
+    container_name: dltc-env
+    tty: true
+    stdin_open: true
+    hostname: dltc-env
+    ports:
+      - "7655:22"
+    volumes:
+      - /home/copyeditor/dltc-workhouse:/root/dltc-workhouse
+    command: ["LaunchScript", "ssh"]
