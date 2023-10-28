@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# Entrypoint for the container
+
+# Start the ssh server inside the container
+service ssh start
+
+
+function cd_host_wd() {
+    if [ -z "${HOST_CWD}" ]; then
+        echo "redactorLaunch: HOST_CWD not set"
+        echo "defaulting to ${HOME}"
+        cd "${HOME}"
+    else
+        cd "${HOST_CWD}"
+    fi
+}
+
+case "$1" in
+
+    # TODO: Add help.msg
+    #"-h" | "--help" | "help")
+        #help.msg
+        #exit 0 ;;
+
+    "manual" | "bash" | "sh")
+        cd_host_wd
+        ( exec bash -l; )
+        exit 0 ;;
+
+    "pandoc" | "pandoc-crossref")
+        cd_host_wd
+        "/usr/local/bin/${1}" ${@:2}
+        exit 0 ;;
+
+    "inkscape")
+        cd_host_wd
+        /usr/bin/inkscape ${@:2}
+        exit 0 ;;
+
+    "pdflatex" | "xelatex" | "bibtex" | "latexmk" | "synctex" | "texcount" | "latexindent")
+        cd_host_wd
+        "/opt/texlive/texdir/bin/default/${1}" ${@:2}
+        exit 0 ;;
+
+    *)
+        echo "LaunchScript: Invalid argument ENTRYPOINT ARGUMENT: ${@:2}"
+        # TODO:
+        #echo "Call -h or --help to see the valid ENTRYPOINT ARGUMENTS."
+        exit 1 ;;
+
+esac
+
