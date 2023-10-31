@@ -11,3 +11,7 @@ services:
     volumes:
       - /home/copyeditor/dltc-workhouse:/root/dltc-workhouse
     command: ["LaunchScript", "ssh"]
+    deploy:
+      resources:
+        limits:
+          memory: 3G
