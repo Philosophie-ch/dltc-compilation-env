@@ -20,8 +20,14 @@ RUN echo "PATH=\"/usr/local/texlive/2023/bin/x86_64-linux:${PATH}\"" >> /root/.p
 RUN tlmgr install --reinstall scheme-full
 
 # Inkscape to process images, sometimes needed by pandoc
+RUN apt-get -y update
 RUN apt-get -y install inkscape
+RUN apt-get -y install git
 
+# Install Quarto 
+RUN  wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450/quarto-1.3.450-linux-amd64.deb -O quarto-1.3.450-linux-amd64.deb \
+    && dpkg -i quarto-1.3.450-linux-amd64.deb \
+    && rm quarto-1.3.450-linux-amd64.deb
 
 # Font setup
 RUN mkdir -p /usr/share/fonts/myfonts
@@ -42,6 +48,16 @@ RUN chmod a+x /usr/local/bin/LaunchScript
 # Remove read permissions for non root users
 #RUN chmod -r /usr/local/bin/LaunchScript
 
+ARG HOST_UID
+ARG HOST_GID
+
+#RUN useradd -u $HOST_UID -g $HOST_GID -s /bin/bash user
+ARG CONTAINER_USER=copyeditor
+ARG CONTAINER_HOME=/home/$CONTAINER_USER
+RUN useradd -u $HOST_UID --create-home --shell=/bin/bash $CONTAINER_USER 
+
+
+USER copyeditor
 
 # TODO: disallow container root access
 # but needs to 'service ssh start' somehow
