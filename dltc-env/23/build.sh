@@ -110,7 +110,7 @@ done
 
 
 # Execution
-build_command="docker build ${bc_t}${bc_l}${bc_f}--build-arg image_tag=${image_tag} ."
+build_command="docker build ${bc_t}${bc_l}${bc_f}--build-arg image_tag=${image_tag} --build-arg HOST_UID=$(id -u) --build-arg HOST_GID=$(id -g) ."
 
 [ "${debug_flag}" == "True" ] \
 && debug_print && exit 1

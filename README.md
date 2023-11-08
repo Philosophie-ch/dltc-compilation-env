@@ -11,5 +11,7 @@ Before you can use docker compose, you need to set up environment variables, lik
 - Copy the '.env.template' file in this directory to a new file called '.env' and then replace the value of the variables inside. These values will depend on your specific set up and Operating System:
     + `DLTC_WORKHOUSE_DIRECTORY` needs to have as a value, between quotes, the full path to the dltc-workhouse folder (the one in Dropbox) between quotes
         - For example, "/home/username/Dropbox/dltc-workhouse" for Linux, for Mac "/Users/username/Dropbox/dltc-workhouse" and "C:\Users\username\Dropbox\dltc-workhouse" for Windows
-    + `HOST_USER` needs to have as a value, between quotes, the name of the user in your computer 
-        - For example, "alebg"
+    + `HOST_UID` needs to have as a value, between quotes, the UNIX UID of the user in your computer 
+        - To obtain it, open a UNIX-like shell (e.g., Bash) and run the command `id -u`
+    + `HOST_GID` needs to have as a value, between quotes, the UNIX GID of the user in your computer 
+        - To obtain it, open a UNIX-like shell (e.g., Bash) and run the command `id -g`
