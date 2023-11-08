@@ -1,0 +1,12 @@
+version: '3'
+services:
+  dltc-env-server:
+    image: dltc-env:latest
+    container_name: dltc-env
+    tty: true
+    stdin_open: true
+    hostname: dltc-env
+    user: "${HOST_USER}"
+    volumes:
+      - "${DLTC_WORKHOUSE_DIRECTORY}:/root/dltc-workhouse"
+    command: ["LaunchScript", "start"]
