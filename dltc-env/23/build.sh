@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# Automatic build, meant to be used
+# Automatic build, meant to be used like this:
+# ./build.sh
 
 function usage() {
 cat << EOF
@@ -71,9 +72,10 @@ tag=${PWD##*/}
 image_name=$( builtin cd ../ && echo "${PWD##*/}" )
 image_tag="${image_name}:${tag}"
 bc_t="-t ${image_tag} "
+# Default latest tag is True
+bc_l="-t ${image_name}:latest "
 
-# Default latest tag is empty and flags are False
-bc_l=
+# Bt default test and debug flags are False
 test_flag="False"
 debug_flag="False"
 
@@ -94,8 +96,6 @@ while getopts ${possible_option_arguments} arg; do
 
         f)  dockerfile_name="${OPTARG}"
             bc_f="-f ${dockerfile_name} " ;;
-
-        l)  bc_l="-t ${image_name}:latest " ;;
 
         p)  test_flag="True" ;;
 
