@@ -6,24 +6,13 @@
 
 #cd ${DLTC_WORKHOUSE_DIR}
 
+
 case "$1" in
 
-    "ssh")
-        if ! pgrep sshd > /dev/null; then
-            echo "LaunchScript: Starting SSH server..."
-            service ssh start && echo "LaunchScript: SSH server started."
-            rm -rf ${HOME}/.ssh
-            mkdir ${HOME}/.ssh
-            wget https://raw.githubusercontent.com/alebg/dltc-compilation-env/alebg/issue7/copyeditor%20files/copyediting_team_public_keys -O ${HOME}/.ssh/authorized_keys
-            echo "" >> ${HOME}/.ssh/authorized_keys
-        else
-            echo "LaunchScript: SSH server already running."
-        fi
-
+    "start")
         # Keep the container alive
         while true; do sleep 1000; done
-
-        exit 0 ;;
+        ;;
 
     "pandoc" | "pandoc-crossref")
         "/usr/local/bin/${1}" ${@:2}

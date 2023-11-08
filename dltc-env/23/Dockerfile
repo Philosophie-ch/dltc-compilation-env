@@ -22,10 +22,6 @@ RUN tlmgr install --reinstall scheme-full
 # Inkscape to process images, sometimes needed by pandoc
 RUN apt-get -y install inkscape
 
-# SSH server setup
-RUN apt-get install -y openssh-server
-COPY config/sshd_config /etc/ssh/sshd_config
-
 
 # Font setup
 RUN mkdir -p /usr/share/fonts/myfonts
