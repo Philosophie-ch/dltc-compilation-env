@@ -48,6 +48,13 @@ RUN chmod a+x /usr/local/bin/LaunchScript
 # Remove read permissions for non root users
 #RUN chmod -r /usr/local/bin/LaunchScript
 
+# Locales setup
+RUN apt-get update -y && apt-get install -y locales
+RUN locale-gen en_US.UTF-8
+ENV LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en \
+    LC_ALL=en_US.UTF-8
+
 ARG HOST_UID
 ARG HOST_GID
 
@@ -58,6 +65,8 @@ RUN useradd -u $HOST_UID --create-home --shell=/bin/bash $CONTAINER_USER
 
 
 USER copyeditor
+
+#RUN echo "export LC_ALL=en_US.UTF-8" >> /home/copyeditor/.bashrc
 
 # TODO: disallow container root access
 # but needs to 'service ssh start' somehow
