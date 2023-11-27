@@ -17,6 +17,7 @@ RUN cd /tmp && \
 RUN echo "PATH=\"/usr/local/texlive/2023/bin/x86_64-linux:${PATH}\"" >> /root/.profile
 
 # TeXLive full install doesn't have all packages, so we use tlmgr to force install absolutely everything possible
+RUN tlmgr update --self
 RUN tlmgr install --reinstall scheme-full
 
 # Inkscape to process images, sometimes needed by pandoc
