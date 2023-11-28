@@ -1,17 +1,12 @@
 version: '3'
 services:
   dltc-env-server:
-    build: 
-      context: .
-      args:
-        HOST_UID: ${HOST_UID}
-        HOST_GID: ${HOST_GID}
-    image: dltc-env:latest
+    image: luisalebg/dltc-env:latest
     container_name: dltc-env
     tty: true
     stdin_open: true
     hostname: dltc-env
-    user: "${HOST_UID}:${HOST_GID}"
+    user: "${COMMON_UID}"
     volumes:
       - "${DLTC_WORKHOUSE_DIRECTORY}:/home/copyeditor/dltc-workhouse"
     working_dir: /home/copyeditor/dltc-workhouse
