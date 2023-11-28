@@ -56,13 +56,13 @@ ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
     LC_ALL=en_US.UTF-8
 
-ARG HOST_UID
-ARG HOST_GID
+ARG COMMON_UID=1000
+ARG COMMON_GID=1000
 
 #RUN useradd -u $HOST_UID -g $HOST_GID -s /bin/bash user
 ARG CONTAINER_USER=copyeditor
 ARG CONTAINER_HOME=/home/$CONTAINER_USER
-RUN useradd -u $HOST_UID --create-home --shell=/bin/bash $CONTAINER_USER 
+RUN useradd -u $COMMON_UID --create-home --shell=/bin/bash $CONTAINER_USER 
 
 
 USER copyeditor
