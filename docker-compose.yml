@@ -1,12 +1,11 @@
 version: '3'
 services:
   dltc-env-server:
-    image: luisalebg/dltc-env:latest
+    image: philosophiech/dltc-env:latest
     container_name: dltc-env
     tty: true
     stdin_open: true
     hostname: dltc-env
-    user: "${COMMON_UID}"
     volumes:
       - "${DLTC_WORKHOUSE_DIRECTORY}:/home/copyeditor/dltc-workhouse"
     working_dir: /home/copyeditor/dltc-workhouse
